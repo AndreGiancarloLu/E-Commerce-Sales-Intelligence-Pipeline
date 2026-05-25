@@ -1,0 +1,15 @@
+[project]
+name = "pre-project"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "db-dtypes>=1.4.4",
+    "dotenv>=0.9.9",
+    "google-cloud-bigquery>=3.41.0",
+    "google-cloud-bigquery-storage>=2.38.0",
+    "google-cloud-storage>=3.10.1",
+    "pandas>=3.0.3",
+    "pyarrow>=24.0.0",
+]
