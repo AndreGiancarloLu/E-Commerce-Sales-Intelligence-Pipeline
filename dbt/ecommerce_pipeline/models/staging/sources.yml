@@ -1,0 +1,147 @@
+version: 2
+
+sources:
+  - name: raw
+    tables:
+      - name: users
+        description: "This table contains user information such as name, email, and address."
+        columns:
+          - name: id
+            description: "Unique identifier for each user."
+            tests:
+              - unique
+              - not_null
+          - name: first_name
+            description: "First name of the user."
+            tests:
+              - not_null
+          - name: last_name
+            description: "Last name of the user."
+            tests:
+              - not_null
+          - name: email
+            description: "Email address of the user."
+            tests:
+              - not_null
+          - name: age
+            description: "Age of the user."
+            tests:
+              - not_null
+          - name: country
+            description: "Country of the user."
+            tests:
+              - not_null
+          - name: state
+            description: "State of the user."
+            tests:
+              - not_null
+          - name: city
+            description: "City of the user."
+            tests:
+              - not_null
+          - name: traffic_source
+            description: "Traffic source from which the user came."
+            tests:
+              - not_null
+          - name: created_at
+            description: "Date and time when the user was created."
+            tests:
+              - not_null
+
+
+
+      - name: orders
+        description: "This table contains order information including order ID, user ID, number of items, and created at date."
+        columns:
+          - name: order_id
+            description: "Unique identifier for each order."
+            tests:
+              - unique
+              - not_null
+          - name: user_id
+            description: "Identifier for the user who made the order."
+            tests:
+              - not_null
+          - name: num_of_item
+            description: "Number of items in the order."
+            tests:
+              - not_null
+          - name: status
+            description: "Status of the order (e.g., completed, pending, canceled)."
+            tests:
+              - not_null
+          - name: created_at
+            description: "Date and time when the order was created."
+            tests:
+              - not_null
+
+
+
+      
+      - name: products
+        description: "This table contains product information such as product name, category, and price."
+        columns:
+          - name: id
+            description: "Unique identifier for each product."
+            tests:
+              - not_null
+              - unique
+          - name: cost
+            description: "Cost of the product."
+            tests:
+              - not_null
+          - name: category
+            description: "Category of the product."
+            tests:
+              - not_null
+          - name: name
+            description: "Name of the product."
+          - name: brand
+            description: "Brand of the product."
+          - name: retail_price
+            description: "Retail price of the product."
+            tests:
+              - not_null
+          - name: department
+            description: "Department to which the product belongs."
+            tests:
+              - not_null
+      
+      
+      
+      - name: order_items
+        description: "This table contains details of each order item, including order ID, product ID, status, and price."
+        columns:
+          - name: id
+            description: "Unique identifier for each order item."
+            tests:
+              - not_null
+              - unique
+          - name: order_id
+            description: "Identifier for the order to which the item belongs."
+            tests:
+              - not_null
+          - name: user_id
+            description: "Identifier for the user who made the order."
+            tests:
+              - not_null
+          - name: product_id
+            description: "Identifier for the product in the order item."
+            tests:
+              - not_null
+          - name: inventory_item_id
+            description: "Identifier for the inventory item."
+            tests:
+              - not_null
+          - name: status
+            description: "Status of the order item (e.g., shipped, pending, canceled)."
+            tests:
+              - not_null
+          - name: created_at
+            description: "Date and time when the order item was created."
+            tests:
+              - not_null
+          - name: sale_price
+            description: "Sale price of the order item."
+            tests:
+              - not_null

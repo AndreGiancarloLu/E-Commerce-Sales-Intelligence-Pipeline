@@ -1,0 +1,231 @@
+models:
+  - name: stg_raw_users
+    description: "Staging model for the users table. This model does deduplication and concatenates the first and last names into full names."
+    columns:
+      - name: user_id
+        description: "Unique identifier for each user."
+        tests:
+          - unique
+          - not_null
+      - name: full_name
+        description: "Concatenation of first and last names."
+      - name: email
+        description: "Email address of the user."
+      - name: age
+        description: "Age of the user."
+      - name: country
+        description: "Country of the user."
+      - name: state
+        description: "State of the user."
+      - name: city
+        description: "City of the user."
+      - name: traffic_source
+        description: "Traffic source from which the user came."
+        tests:
+          - accepted_values: 
+              arguments:
+                values: ["Search", "Organic", "Facebook", "Email", "Display"]
+      - name: created_at
+        description: "Date and time when the user was created."
+        tests:
+          - not_null
+
+
+
+  - name: stg_raw_orders
+    description: "Staging model for the orders table. This model casts order_id and user_id to strings."
+    columns:
+      - name: order_id
+        description: "Unique identifier for each order."
+        tests:
+          - unique
+          - not_null
+      - name: user_id
+        description: "Identifier for the user who made the order."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_raw_users')
+                field: user_id
+      - name: num_of_item
+        description: "Number of items in the order."
+        tests:
+          - not_null
+      - name: status
+        description: "Status of the order."
+        tests:
+          - accepted_values: 
+              arguments:
+                values: ["Cancelled", "Complete", "Processing", "Returned", "Shipped"]
+      - name: created_at
+        description: "Date and time when the order was created."
+        tests:
+          - not_null
+
+  - name: stg_raw_products
+    description: "Staging model for the products table. This model casts product_id to string."
+    columns:
+      - name: product_id
+        description: "Unique identifier for each product."
+        tests:
+          - unique
+          - not_null
+      - name: cost
+        description: "Cost of the product."
+        tests:
+          - not_null
+      - name: category
+        description: "Category of the product."
+        tests:
+          - not_null
+      - name: name
+        description: "Name of the product."
+        tests:
+          - not_null
+      - name: brand
+        description: "Brand of the product."
+        tests:
+          - not_null
+      - name: retail_price
+        description: "Retail price of the product."
+        tests:
+          - not_null
+      - name: department
+        description: "Department of the product."
+        tests:
+          - not_null
+
+
+
+
+  - name: stg_raw_order_items
+    description: "Staging model for the order_items table. This model casts ids to strings."
+    columns:
+      - name: order_item_id
+        description: "Unique identifier for each order item."
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: "Identifier for the order to which this item belongs."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_raw_orders')
+                field: order_id
+      - name: user_id
+        description: "Identifier for the user who made the order."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_raw_users')
+                field: user_id
+      - name: product_id
+        description: "Identifier for the product in this order item."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_raw_products')
+                field: product_id
+      - name: inventory_item_id
+        description: "Identifier for the inventory item in this order item."
+      - name: status
+        description: "Status of the order item."
+        tests:
+          - accepted_values: 
+              arguments:
+                values: ["Cancelled", "Complete", "Processing", "Returned", "Shipped"]
+      - name: created_at
+        description: "Date and time when the order item was created."
+        tests:
+          - not_null
+      - name: sale_price
+        description: "Sale price of the product in this order item."
+        tests:
+          - not_null
+
+
+
+  - name: dim_customers
+    description: "Dimension table for customers. This model aggregates user information and calculates metrics such as total spend and average order value."
+    columns:
+      - name: customer_id
+        description: "Unique identifier for each customer."
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_raw_users')
+                field: user_id
+      - name: customer_name
+        description: "Full name of the customer."
+        tests:
+          - not_null
+      - name: customer_email
+        description: "Email address of the customer."
+        tests:
+          - not_null
+      - name: customer_age
+        description: "Age of the customer."
+        tests:
+          - not_null
+      - name: customer_country
+        description: "Country of the customer."
+        tests:
+          - not_null
+      - name: total_orders
+        description: "Total number of orders placed by the customer."
+        tests:
+          - not_null
+      - name: total_spend
+        description: "Total amount spent by the customer across all orders."
+        tests:
+          - not_null
+
+
+
+  - name: fct_orders
+    description: "Fact table for orders. This model combines order information with product and customer information."
+    columns:
+      - name: order_item_id
+        description: "Unique identifier for each order item."
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: "Unique identifier for each order."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_raw_orders')
+                field: order_id
+      - name: user_id
+        description: "Identifier for the user who placed the order."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_raw_users')
+                field: user_id
+      - name: product_id
+        description: "Identifier for the product in this order."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_raw_products')
+                field: product_id
+      - name: sale_price
+        description: "Sale price of the product in this order."
+        tests:
+          - not_null
+      - name: cost
+        description: "Cost of the product in this order."
+        tests:
+          - not_null
