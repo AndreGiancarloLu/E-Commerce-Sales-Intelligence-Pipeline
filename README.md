@@ -1,6 +1,6 @@
 # E-Commerce Sales Intelligence Pipeline
 
-An end-to-end data pipeline built on **Terraform → GCS → BigQuery → dbt → Python**, analysing the [TheLook E-Commerce](https://console.cloud.google.com/marketplace/product/bigquery-public-data/thelook-ecommerce) public dataset. The project demonstrates production data engineering practices: infrastructure-as-code, modular ingestion via GCS, layered dbt transforms, analytical notebooks, and automated HTML reporting.
+An end-to-end data pipeline built on **Terraform -> GCS -> BigQuery -> dbt -> Python**, analysing the [TheLook E-Commerce](https://console.cloud.google.com/marketplace/product/bigquery-public-data/thelook-ecommerce) public dataset. The project demonstrates production data engineering practices: infrastructure-as-code, modular ingestion via GCS, layered dbt transforms, analytical notebooks, and automated HTML reporting.
 
 ---
 
@@ -85,7 +85,7 @@ Retail businesses generate large volumes of transactional data across orders, cu
 │   · Geography & acquisition          · Customer LTV distribution    │
 │   · Cohort retention heatmap         · Revenue concentration        │
 │                                                                     │
-│   → Exports: sales_intelligence_report.html  (Jinja2 + base64)      │
+│     Exports: sales_intelligence_report.html  (Jinja2 + base64)      │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
