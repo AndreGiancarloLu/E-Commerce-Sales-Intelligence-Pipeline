@@ -25,6 +25,16 @@ resource "google_bigquery_dataset" "raw_dataset" {
   location   = var.region
 }
 
+resource "google_bigquery_dataset" "staging_dataset" {
+  dataset_id = "staging"
+  location   = var.region
+}
+
+resource "google_bigquery_dataset" "marts_dataset" {
+  dataset_id = "marts"
+  location   = var.region
+}
+
 # --- Service Account ---
 resource "google_service_account" "pipeline_sa" {
   account_id   = "ecommerce-pipeline-sa"
@@ -51,6 +61,12 @@ resource "google_project_iam_member" "bq_data_editor" {
 resource "google_project_iam_member" "bq_data_viewer" {
   project = var.project_id
   role    = "roles/bigquery.dataViewer"
+  member  = "serviceAccount:${google_service_account.pipeline_sa.email}"
+}
+
+resource "google_project_iam_member" "bq_read_sessions" {
+  project = var.project_id
+  role    = "roles/bigquery.readSessionUser"
   member  = "serviceAccount:${google_service_account.pipeline_sa.email}"
 }
 

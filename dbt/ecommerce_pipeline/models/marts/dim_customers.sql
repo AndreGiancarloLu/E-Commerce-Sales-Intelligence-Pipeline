@@ -16,7 +16,7 @@ WITH customer_stats AS (
         END AS days_since_last_order
     FROM {{ ref('stg_raw_users') }} u
     LEFT JOIN {{ ref('stg_raw_orders') }} o ON u.user_id = o.user_id
-    LEFT JOIN {{ ref('stg_raw_order_items') }} oi ON o.order_id = oi.order_id
+    LEFT JOIN {{ ref('stg_raw_order_items') }} oi ON o.order_id = oi.order_id AND oi.status IN ('Complete', 'Shipped')
     GROUP BY u.user_id, u.full_name, u.email, u.country, u.age
 )
 
