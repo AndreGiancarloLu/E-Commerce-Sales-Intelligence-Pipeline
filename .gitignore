@@ -33,6 +33,7 @@ dbt/ecommerce_pipeline/logs/
 
 # --- Generated outputs ---
 sales_intelligence_report.html
+sales_intelligence_report_upgraded.html
 
 # --- OS ---
 .DS_Store

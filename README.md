@@ -86,6 +86,7 @@ Retail businesses generate large volumes of transactional data across orders, cu
 │   · Cohort retention heatmap         · Revenue concentration        │
 │                                                                     │
 │     Exports: sales_intelligence_report.html  (Jinja2 + base64)      │
+│     Executive summary: Gemini 2.5 Flash API                         │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -179,6 +180,7 @@ Create a `.env` file in the project root:
 BQ_PROJECT=career-practice
 GCS_BUCKET_NAME=career-practice-ecommerce-data-bucket
 GOOGLE_APPLICATION_CREDENTIALS=terraform/service-account-key.json
+GEMINI_API_KEY=*insert-api-key-here*
 ```
 
 > **Never commit this file or the service account key.** Both are listed in `.gitignore`.
@@ -261,7 +263,6 @@ uv run jupyter nbconvert --to notebook --execute jupyter_analysis/analysis.ipynb
 
 ## Planned Enhancements
 
--  **LLM executive summary** replace static summary with Anthropic API-generated narrative keyed to actual metric values
 -  **FastAPI endpoint** trigger the full pipeline on demand via HTTP POST
 -  **LangChain Q&A** natural language questions over the sales data
 -  **Make.com automation** weekly pipeline run with automated HTML report delivery
@@ -279,6 +280,7 @@ uv run jupyter nbconvert --to notebook --execute jupyter_analysis/analysis.ipynb
 | Transform | dbt Core · `dbt-bigquery` |
 | Analysis | Pandas · Matplotlib · Seaborn |
 | Reporting | Jinja2 · base64-embedded HTML |
+| AI / LLM | Gemini 2.5 Flash · `google-genai` |
 | Dependency management | uv · `pyproject.toml` |
 
 ---
